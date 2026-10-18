@@ -1,0 +1,167 @@
+versions: pyomo 6.10.1, highspy 1.15.1, numpy 2.5.4, python 3.12.14
+=== instance: molp17.dat ===
+|I|=5  |J|=5  |K|=5
+ILE=[1, 2, 3, 4, 5]  IEQ=[]  IGE=[]
+sanity: ILE/IEQ/IGE partition I; a and c default to 0
+
+--- structure (Task 1) ---
+objective coefficient signs c[k,j] (0 omitted):
+  z1 = -1*x1 -2*x3 +4*x5
+  z2 = +2*x1 +3*x3
+  z3 = +4*x1 -2*x4
+  z4 = +3*x2 +1*x4
+  z5 = +1*x2 +5*x5
+constraint rows:
+  row 1: +7*x1 +4*x2 +3*x3 +6*x4 +7*x5 <= 1462
+  row 2: +6*x1 <= 606
+  row 3: -5*x2 <= 210
+  row 4: +5*x3 <= 590
+  row 5: +6*x4 <= 546
+objective yield per unit of row-1 budget (c[1,j]/a[1,j]):
+  x1: costs 7  ->  z1 -0.143  z2 +0.286  z3 +0.571
+  x2: costs 4  ->  z4 +0.750  z5 +0.250
+  x3: costs 3  ->  z1 -0.667  z2 +1.000
+  x4: costs 6  ->  z3 -0.333  z4 +0.167
+  x5: costs 7  ->  z1 +0.571  z5 +0.714
+
+--- payoff table (Task 4a) ---
+                  z1          z2          z3          z4          z5
+max z1      835.4286      0.0000      0.0000      0.0000   1044.2857
+max z2     -337.0000    556.0000    404.0000      0.0000      0.0000
+max z3     -337.0000    556.0000    404.0000      0.0000      0.0000
+max z4        0.0000      0.0000      0.0000   1096.5000    365.5000
+max z5      835.4286      0.0000      0.0000      0.0000   1044.2857
+ideal       835.4286    556.0000    404.0000   1096.5000   1044.2857
+nadir~     -337.0000      0.0000      0.0000      0.0000      0.0000
+
+--- weighting sweep (Task 3a) ---
+301 solves -> 8 distinct points
+distinct after the first 41 solves (uniform + 40 Dirichlet draws, seed 0): 6
+  among the first 41: x=(0, 0, 0, 0, 208.857)
+  among the first 41: x=(0, 0, 118, 0, 158.286)
+  among the first 41: x=(0, 277, 118, 0, 0)
+  among the first 41: x=(0, 365.5, 0, 0, 0)
+  among the first 41: x=(101, 0, 0, 0, 107.857)
+  among the first 41: x=(101, 100.25, 118, 0, 0)
+certificate weights w=(21,41,32,29,21): LP optimal value = 39474 (all efficient vertices attain it; optimal set = the candidate face)
+
+--- epsilon-constraint sweep (Task 3a) ---
+256 grids (189 infeasible) -> 30 distinct points
+weighting: 8 of 8 certified efficient
+epsilon:   30 of 30 certified efficient
+
+--- full vertex enumeration (Task 3d / Bonus) ---
+24 distinct vertices of X
+certified efficient extreme points: 8
+
+all efficient extreme points (x, z, gap, found by):
+  x=(0, 0, 0, 0, 208.857)  z=(835.429, 0, 0, 0, 1044.29)  gap= 6.9e-08  found: payoff(max z1), payoff(max z5), weighting, epsilon, vertex enumeration
+  x=(0, 0, 118, 0, 158.286)  z=(397.143, 354, 0, 0, 791.429)  gap= 6.3e-08  found: weighting, vertex enumeration
+  x=(0, 277, 118, 0, 0)  z=(-236, 354, 0, 831, 277)  gap= 6.3e-08  found: weighting, vertex enumeration
+  x=(0, 365.5, 0, 0, 0)  z=(0, 0, 0, 1096.5, 365.5)  gap= 6.3e-08  found: payoff(max z4), weighting, epsilon, vertex enumeration
+  x=(101, -0, 0, -0, 107.857)  z=(330.429, 202, 404, 0, 539.286)  gap= 6.9e-08  found: weighting, epsilon, vertex enumeration
+  x=(101, 0, 118, -0, 57.2857)  z=(-107.857, 556, 404, 0, 286.429)  gap= 6.9e-08  found: weighting, epsilon, vertex enumeration
+  x=(101, 100.25, 118, 0, 0)  z=(-337, 556, 404, 300.75, 100.25)  gap= 6.9e-08  found: weighting, vertex enumeration
+  x=(101, 188.75, 0, 0, 0)  z=(-101, 202, 404, 566.25, 188.75)  gap= 6.9e-08  found: weighting, vertex enumeration
+active-set ranks of the 8 reported points: [5, 5, 5, 5, 5, 5, 5, 5] (all n = 5: every reported point is an extreme point)
+certificate check: 8/8 efficient extreme points attain w·z = 39474 -> the whole face conv(EEF) is optimal for this w, hence efficient
+
+vertices attaining each row maximum (multiple optima check):
+  max z1 = 835.429: attained by 1 of the 24 vertices
+  max z2 = 556: attained by 4 of the 24 vertices
+  max z3 = 404: attained by 6 of the 24 vertices
+  max z4 = 1096.5: attained by 1 of the 24 vertices
+  max z5 = 1044.29: attained by 1 of the 24 vertices
+
+--- certification of payoff-table representatives (Task 4a) ---
+  max z1 rep: z=(835.429, 0, 0, 0, 1044.29) gap= 6.857e-08 efficient=True
+  max z2 rep: z=(-337, 556, 404, 0, 0) gap= 5.156e+02 efficient=False
+  max z3 rep: z=(-337, 556, 404, 0, 0) gap= 5.156e+02 efficient=False
+  max z4 rep: z=(0, 0, 0, 1096.5, 365.5) gap= 6.857e-08 efficient=True
+  max z5 rep: z=(835.429, 0, 0, 0, 1044.29) gap= 6.857e-08 efficient=True
+
+--- all vertices of X with certification verdict (Task 3d) ---
+  x=(0, 0, 0, 0, 0) z=(0, 0, 0, 0, 0) gap= 1.880e+03 efficient=False
+  x=(0, 0, 0, 0, 208.857) z=(835.429, 0, 0, 0, 1044.29) gap= 6.857e-08 efficient=True
+  x=(0, 0, 0, 91, 0) z=(0, 0, -182, 91, 0) gap= 1.936e+03 efficient=False
+  x=(0, 0, 0, 91, 130.857) z=(523.429, 0, -182, 91, 654.286) gap= 7.583e+02 efficient=False
+  x=(0, 0, 118, 0, 0) z=(-236, 354, 0, 0, 0) gap= 1.425e+03 efficient=False
+  x=(0, 0, 118, 0, 158.286) z=(397.143, 354, 0, 0, 791.429) gap= 6.333e-08 efficient=True
+  x=(0, 0, 118, 91, 0) z=(-236, 354, -182, 91, 0) gap= 1.481e+03 efficient=False
+  x=(0, 0, 118, 91, 80.2857) z=(85.1429, 354, -182, 91, 401.429) gap= 7.583e+02 efficient=False
+  x=(0, 140.5, 118, 91, 0) z=(-236, 354, -182, 512.5, 140.5) gap= 7.583e+02 efficient=False
+  x=(0, 229, 0, 91, 0) z=(-0, 0, -182, 778, 229) gap= 7.583e+02 efficient=False
+  x=(0, 277, 118, 0, 0) z=(-236, 354, 0, 831, 277) gap= 6.333e-08 efficient=True
+  x=(0, 365.5, 0, 0, 0) z=(0, 0, 0, 1096.5, 365.5) gap= 6.333e-08 efficient=True
+  x=(80.2857, 0, 118, 91, 0) z=(-316.286, 514.571, 139.143, 91, 0) gap= 7.583e+02 efficient=False
+  x=(101, 0, 0, 0, 0) z=(-101, 202, 404, 0, 0) gap= 9.707e+02 efficient=False
+  x=(101, -0, 0, -0, 107.857) z=(330.429, 202, 404, 0, 539.286) gap= 6.857e-08 efficient=True
+  x=(101, 0, 0, 91, 0) z=(-101, 202, 222, 91, 0) gap= 1.122e+03 efficient=False
+  x=(101, 0, 0, 91, 29.8571) z=(18.4286, 202, 222, 91, 149.286) gap= 8.537e+02 efficient=False
+  x=(101, 0, 69.6667, 91, 0) z=(-240.333, 411, 222, 91, 0) gap= 8.537e+02 efficient=False
+  x=(101, 0, 118, 0, 0) z=(-337, 556, 404, 0, 0) gap= 5.156e+02 efficient=False
+  x=(101, 0, 118, -0, 57.2857) z=(-107.857, 556, 404, 0, 286.429) gap= 6.857e-08 efficient=True
+  x=(101, 0, 118, 66.8333, 0) z=(-337, 556, 270.333, 66.8333, 0) gap= 5.569e+02 efficient=False
+  x=(101, 52.25, 0, 91, 0) z=(-101, 202, 222, 247.75, 52.25) gap= 8.537e+02 efficient=False
+  x=(101, 100.25, 118, 0, 0) z=(-337, 556, 404, 300.75, 100.25) gap= 6.857e-08 efficient=True
+  x=(101, 188.75, 0, 0, 0) z=(-101, 202, 404, 566.25, 188.75) gap= 6.857e-08 efficient=True
+
+--- nadir comparison (Task 4b) ---
+ideal                 835.4286    556.0000    404.0000   1096.5000   1044.2857
+nadir est (plain)    -337.0000      0.0000      0.0000      0.0000      0.0000
+nadir over EEF       -337.0000      0.0000      0.0000      0.0000    100.2500
+
+--- trade-offs (Task 4c) ---
+z ranges over the efficient extreme points:
+  z1: min  -337.0000  max   835.4286
+  z2: min     0.0000  max   556.0000
+  z3: min     0.0000  max   404.0000
+  z4: min     0.0000  max  1096.5000
+  z5: min   100.2500  max  1044.2857
+
+--- midpoints of efficient extreme points (Task 4d) ---
+pair_type  x_mid  z_mid  efficient?
+  adjacent     (0, 0, 0, 0, 208.857) x (0, 0, 118, 0, 158.286)  mid=(0, 0, 59, 0, 183.571) z=(616.286, 177, 0, 0, 917.857) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 0, 0, 208.857) x (0, 277, 118, 0, 0)  mid=(0, 138.5, 59, 0, 104.429) z=(299.714, 177, 0, 415.5, 660.643) gap= 6.9e-08 efficient=True
+  adjacent     (0, 0, 0, 0, 208.857) x (0, 365.5, 0, 0, 0)  mid=(0, 182.75, 0, 0, 104.429) z=(417.714, 0, 0, 548.25, 704.893) gap= 6.9e-08 efficient=True
+  adjacent     (0, 0, 0, 0, 208.857) x (101, -0, 0, -0, 107.857)  mid=(50.5, 0, 0, 0, 158.357) z=(582.929, 101, 202, 0, 791.786) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 0, 0, 208.857) x (101, 0, 118, -0, 57.2857)  mid=(50.5, 0, 59, 0, 133.071) z=(363.786, 278, 202, 0, 665.357) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 0, 0, 208.857) x (101, 100.25, 118, 0, 0)  mid=(50.5, 50.125, 59, 0, 104.429) z=(249.214, 278, 202, 150.375, 572.268) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 0, 0, 208.857) x (101, 188.75, 0, 0, 0)  mid=(50.5, 94.375, 0, 0, 104.429) z=(367.214, 101, 202, 283.125, 616.518) gap= 6.9e-08 efficient=True
+  adjacent     (0, 0, 118, 0, 158.286) x (0, 277, 118, 0, 0)  mid=(0, 138.5, 118, 0, 79.1429) z=(80.5714, 354, 0, 415.5, 534.214) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 118, 0, 158.286) x (0, 365.5, 0, 0, 0)  mid=(0, 182.75, 59, 0, 79.1429) z=(198.571, 177, 0, 548.25, 578.464) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 118, 0, 158.286) x (101, -0, 0, -0, 107.857)  mid=(50.5, 0, 59, 0, 133.071) z=(363.786, 278, 202, 0, 665.357) gap= 6.9e-08 efficient=True
+  adjacent     (0, 0, 118, 0, 158.286) x (101, 0, 118, -0, 57.2857)  mid=(50.5, 0, 118, 0, 107.786) z=(144.643, 455, 202, 0, 538.929) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 118, 0, 158.286) x (101, 100.25, 118, 0, 0)  mid=(50.5, 50.125, 118, 0, 79.1429) z=(30.0714, 455, 202, 150.375, 445.839) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 0, 118, 0, 158.286) x (101, 188.75, 0, 0, 0)  mid=(50.5, 94.375, 59, 0, 79.1429) z=(148.071, 278, 202, 283.125, 490.089) gap= 6.9e-08 efficient=True
+  adjacent     (0, 277, 118, 0, 0) x (0, 365.5, 0, 0, 0)  mid=(0, 321.25, 59, 0, 0) z=(-118, 177, 0, 963.75, 321.25) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 277, 118, 0, 0) x (101, -0, 0, -0, 107.857)  mid=(50.5, 138.5, 59, 0, 53.9286) z=(47.2143, 278, 202, 415.5, 408.143) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 277, 118, 0, 0) x (101, 0, 118, -0, 57.2857)  mid=(50.5, 138.5, 118, 0, 28.6429) z=(-171.929, 455, 202, 415.5, 281.714) gap= 6.9e-08 efficient=True
+  adjacent     (0, 277, 118, 0, 0) x (101, 100.25, 118, 0, 0)  mid=(50.5, 188.625, 118, 0, 0) z=(-286.5, 455, 202, 565.875, 188.625) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 277, 118, 0, 0) x (101, 188.75, 0, 0, 0)  mid=(50.5, 232.875, 59, 0, 0) z=(-168.5, 278, 202, 698.625, 232.875) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 365.5, 0, 0, 0) x (101, -0, 0, -0, 107.857)  mid=(50.5, 182.75, 0, 0, 53.9286) z=(165.214, 101, 202, 548.25, 452.393) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 365.5, 0, 0, 0) x (101, 0, 118, -0, 57.2857)  mid=(50.5, 182.75, 59, 0, 28.6429) z=(-53.9286, 278, 202, 548.25, 325.964) gap= 6.9e-08 efficient=True
+  non-adjacent (0, 365.5, 0, 0, 0) x (101, 100.25, 118, 0, 0)  mid=(50.5, 232.875, 59, 0, 0) z=(-168.5, 278, 202, 698.625, 232.875) gap= 6.9e-08 efficient=True
+  adjacent     (0, 365.5, 0, 0, 0) x (101, 188.75, 0, 0, 0)  mid=(50.5, 277.125, 0, 0, 0) z=(-50.5, 101, 202, 831.375, 277.125) gap= 6.9e-08 efficient=True
+  adjacent     (101, -0, 0, -0, 107.857) x (101, 0, 118, -0, 57.2857)  mid=(101, 0, 59, -0, 82.5714) z=(111.286, 379, 404, 0, 412.857) gap= 6.9e-08 efficient=True
+  non-adjacent (101, -0, 0, -0, 107.857) x (101, 100.25, 118, 0, 0)  mid=(101, 50.125, 59, 0, 53.9286) z=(-3.28571, 379, 404, 150.375, 319.768) gap= 6.9e-08 efficient=True
+  adjacent     (101, -0, 0, -0, 107.857) x (101, 188.75, 0, 0, 0)  mid=(101, 94.375, 0, 0, 53.9286) z=(114.714, 202, 404, 283.125, 364.018) gap= 6.9e-08 efficient=True
+  adjacent     (101, 0, 118, -0, 57.2857) x (101, 100.25, 118, 0, 0)  mid=(101, 50.125, 118, 0, 28.6429) z=(-222.429, 556, 404, 150.375, 193.339) gap= 6.9e-08 efficient=True
+  non-adjacent (101, 0, 118, -0, 57.2857) x (101, 188.75, 0, 0, 0)  mid=(101, 94.375, 59, 0, 28.6429) z=(-104.429, 379, 404, 283.125, 237.589) gap= 6.9e-08 efficient=True
+  adjacent     (101, 100.25, 118, 0, 0) x (101, 188.75, 0, 0, 0)  mid=(101, 144.5, 59, 0, 0) z=(-219, 379, 404, 433.5, 144.5) gap= 6.9e-08 efficient=True
+tested: 12 adjacent pairs, 16 non-adjacent pairs
+
+--- efficient edges (Bonus) ---
+  efficient edge: (0, 0, 0, 0, 208.857) -- (0, 0, 118, 0, 158.286) (midpoint gap  6.9e-08)
+  efficient edge: (0, 0, 0, 0, 208.857) -- (0, 365.5, 0, 0, 0) (midpoint gap  6.9e-08)
+  efficient edge: (0, 0, 0, 0, 208.857) -- (101, -0, 0, -0, 107.857) (midpoint gap  6.9e-08)
+  efficient edge: (0, 0, 118, 0, 158.286) -- (0, 277, 118, 0, 0) (midpoint gap  6.9e-08)
+  efficient edge: (0, 0, 118, 0, 158.286) -- (101, 0, 118, -0, 57.2857) (midpoint gap  6.9e-08)
+  efficient edge: (0, 277, 118, 0, 0) -- (0, 365.5, 0, 0, 0) (midpoint gap  6.9e-08)
+  efficient edge: (0, 277, 118, 0, 0) -- (101, 100.25, 118, 0, 0) (midpoint gap  6.9e-08)
+  efficient edge: (0, 365.5, 0, 0, 0) -- (101, 188.75, 0, 0, 0) (midpoint gap  6.9e-08)
+  efficient edge: (101, -0, 0, -0, 107.857) -- (101, 0, 118, -0, 57.2857) (midpoint gap  6.9e-08)
+  efficient edge: (101, -0, 0, -0, 107.857) -- (101, 188.75, 0, 0, 0) (midpoint gap  6.9e-08)
+  efficient edge: (101, 0, 118, -0, 57.2857) -- (101, 100.25, 118, 0, 0) (midpoint gap  6.9e-08)
+  efficient edge: (101, 100.25, 118, 0, 0) -- (101, 188.75, 0, 0, 0) (midpoint gap  6.9e-08)
+total efficient edges: 12

@@ -1,0 +1,43 @@
+# IE 441 Assignment 1 -- example MOLP instance (p = 5 objectives, m = 5 constraints, n = 5 variables)
+# max Cx  s.t.  Ax (<=, =, >=) b,  x >= 0
+
+set I := 1 2 3 4 5 ;
+set J := 1 2 3 4 5 ;
+set K := 1 2 3 4 5 ;
+set ILE := 1 2 3 4 5 ;
+set IEQ :=  ;
+set IGE :=  ;
+
+param a default 0 :=
+  1 1  8
+  1 2  4
+  1 3  6
+  1 4  2
+  1 5  8
+  2 1  -1
+  3 2  5
+  4 3  -2
+  5 4  7
+;
+
+param b :=
+  1  1665
+  2  40
+  3  630
+  4  28
+  5  882
+;
+
+param c default 0 :=
+  1 1  5
+  1 3  -1
+  1 5  2
+  2 1  4
+  2 3  -1
+  3 1  3
+  3 4  5
+  4 2  -3
+  4 4  -2
+  5 2  5
+  5 5  -3
+;
